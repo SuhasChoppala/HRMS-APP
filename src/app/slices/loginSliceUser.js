@@ -5,7 +5,7 @@ export const loginUserApi = createAsyncThunk('loginUserApi', async (payload, { r
     try {
         const response = await axios.get("http://localhost:4000/employees");
         const users = response.data;
-        const filteredUser = users.find((user) => user.email === payload.userEmail && user.password === payload.userPassword);
+        const filteredUser = users.find((user) => user.contact_details.email === payload.userEmail && user.password === payload.userPassword);
         if (filteredUser) {
             localStorage.setItem("user", JSON.stringify(filteredUser));
             return { loginSuccess: true, filteredUser }

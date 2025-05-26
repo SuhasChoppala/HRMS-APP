@@ -128,7 +128,7 @@ function LeaveApplication() {
                                                             <option value="" disabled hidden className="pr-6">
                                                                 Actions
                                                             </option>
-                                                            <option value="Withdraw">Withdraw</option>
+                                                            <option value="Withdraw" disabled={leave.status === 'Accepted'}>Withdraw</option>
                                                         </select>
                                                         <Image
                                                             src="/actions-down-arrow.png"

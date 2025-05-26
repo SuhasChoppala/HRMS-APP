@@ -7,6 +7,7 @@ import userDashboardReducer from '../app/slices/userDashboardSlice';
 import userNavbarReducer from './slices/userNavbarSlice';
 import leaveApplicationReducer from './slices/userApplyLeaveSlice';
 import leaveManagementReducer from './slices/leaveManagementSlice';
+import updateProfileReducer from './slices/userUpdateProfileSlice';
 
 export const store = configureStore({
     reducer: {
@@ -17,6 +18,7 @@ export const store = configureStore({
         userDashboard: userDashboardReducer,
         userNavbar: userNavbarReducer,
         leaveApplication: leaveApplicationReducer,
-        leaveManagement: leaveManagementReducer
+        leaveManagement: leaveManagementReducer,
+        updateProfile: updateProfileReducer
     }
 })

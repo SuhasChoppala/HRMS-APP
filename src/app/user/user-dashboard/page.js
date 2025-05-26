@@ -9,6 +9,7 @@ import Link from "next/link";
 import { useSelector } from "react-redux";
 import { useEffect, useState } from 'react';
 import { useDispatch } from "react-redux";
+import { getLoggedInUser } from "@/services/authServices";
 import { fetchAnnouncements, fetchLeaves, fetchPayslipBreakdown, fetchBirthdays, fetchPerformaceAppraisal, toggleTaskStatus, sendBdayWishes, fetchAllMessagesInDB } from "../../slices/userDashboardSlice";
 import { fetchAllTodos } from "../../slices/userDashboardSlice";
 
@@ -17,13 +18,22 @@ function UserDashboard() {
     const dispatch = useDispatch();
     const [isUserActive, setIsUserActive] = useState(null);
 
-    const { loggedInUser, leaves, todos, announcements, payslips, employeeBirthday, performanceAppraisal } = useSelector(state => state.userDashboard);
+    const { leaves, todos, announcements, payslips, employeeBirthday, performanceAppraisal } = useSelector(state => state.userDashboard);
+
+    const [loggedInUser, setLoggedInUser] = useState(null);
+
+    useEffect(() => {
+        const storedUser = getLoggedInUser();
+        setLoggedInUser(storedUser);
+    }, []);
 
     useEffect(() => {
         if (loggedInUser) {
-            setIsUserActive(true);
+            setTimeout(() => {
+                setIsUserActive(true);
+            }, 100);
         }
-    }, []);
+    }, [loggedInUser]);
 
     useEffect(() => {
         if (loggedInUser && loggedInUser.id) {
@@ -79,7 +89,7 @@ function UserDashboard() {
                                 <p className="text-lg font-light">{loggedInUser?.job_title}</p>
                             </div>
                         </div>
-                        <Link href='/user/update-profile'><button className="bg-[#FFC20E] text-black px-6 py-2 rounded font-semibold shadow cursor-pointer hover:bg-yellow-500">Edit Profile</button></Link>
+                        <Link href='/user/update-profile/user-personal-details'><button className="bg-[#FFC20E] text-black px-6 py-2 rounded font-semibold shadow cursor-pointer hover:bg-yellow-500">Edit Profile</button></Link>
                     </div>
 
                     {/* Leaves */}

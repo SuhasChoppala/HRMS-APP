@@ -4,6 +4,8 @@ import Image from "next/image";
 import { useForm } from "react-hook-form";
 import { useDispatch, useSelector } from "react-redux";
 import { loginAdminApi } from "../../slices/loginSliceAdmin";
+import Link from "next/link";
+import { FaArrowLeft } from "react-icons/fa";
 
 function LoginAdmin() {
 
@@ -68,6 +70,16 @@ function LoginAdmin() {
                     <button type="submit" className="w-full bg-yellow-500 text-black py-2 rounded-md font-semibold hover:bg-yellow-400 transition mt-5 cursor-pointer">
                         Sign In
                     </button>
+
+                    <div className="flex justify-center text-center">
+                        <Link
+                            href="/"
+                            className="text-white text-sm hover:underline hover:opacity-90 font-medium flex items-center gap-2"
+                        >
+                            <FaArrowLeft className="text-white text-xs" />
+                            Back
+                        </Link>
+                    </div>
                 </form>
             </div>
         </div>

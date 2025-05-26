@@ -35,8 +35,6 @@ function LeaveRecall() {
         return false;
     });
 
-    const hasRecalledLeave = ongoingLeaves.some(leave => leave.status === 'Recalled');
-
     const [leaveToRecall, setLeaveToRecall] = useState(null);
 
     const openForm = (leaveClicked) => {
@@ -62,7 +60,6 @@ function LeaveRecall() {
                             <th className="text-center px-4 py-4">Type</th>
                             <th className="text-center px-4 py-4">Reason(s)</th>
                             <th className="text-center px-4 py-4">Status</th>
-                            {hasRecalledLeave && <th className='text-center px-4 py-4'>Is User Approved</th>}
                             <th className="text-center px-4 py-4">Actions</th>
                         </tr>
                     </thead>
@@ -81,9 +78,6 @@ function LeaveRecall() {
                                     <td className="px-4 py-4 text-black text-sm text-center">{leave.leave_type}</td>
                                     <td className="px-4 py-4 text-black text-sm text-center">{leave.reason}</td>
                                     <td className="px-4 py-4 text-black text-sm text-center">{leave.status}</td>
-                                    {hasRecalledLeave && (
-                                        <td className="px-4 py-4 text-black text-sm text-center">{leave.status === 'Approved' ? 'Yes' : 'No'}</td>
-                                    )}
                                     <td className="px-4 py-4 text-center">
                                         <button
                                             onClick={() => openForm(leave)}

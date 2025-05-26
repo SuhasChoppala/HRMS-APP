@@ -12,6 +12,7 @@ import { styled } from '@mui/material/styles';
 import MailIcon from '@mui/icons-material/Mail'; //messages icon imports ends here
 import UserNotificationsModal from "./userNotificationsModal";
 import UserProfileModal from "./userProfileModal";
+import { getLoggedInUser } from "@/services/authServices";
 
 function UserNavbar() {
     const dispatch = useDispatch();
@@ -22,7 +23,13 @@ function UserNavbar() {
 
     const { userMessages } = useSelector(state => state.userNavbar);
 
-    const { loggedInUser } = useSelector(state => state.userDashboard);
+    const [loggedInUser, setLoggedInUser] = useState(null);
+
+    useEffect(() => {
+        const user = getLoggedInUser();
+        setLoggedInUser(user);
+    }, []);
+
 
     useEffect(() => {
         if (loggedInUser && loggedInUser.id) {
@@ -49,9 +56,9 @@ function UserNavbar() {
 
 
     const NavMenuItems = [
-        { name: "Dashboard", href: "/user/user-dashboard" },
-        { name: "Apply for leave", href: "/user/leave-application" },
-        { name: "Update Profile", href: "/user/update-profile" },
+        { name: "Dashboard", href: "/user/user-dashboard", mainRoute: "/user/user-dashboard" },
+        { name: "Apply for leave", href: "/user/leave-application", mainRoute: "/user/leave-application" },
+        { name: "Update Profile", href: "/user/update-profile/user-personal-details", mainRoute: "/user/update-profile" },
     ];
 
     const currentPath = usePathname();
@@ -95,7 +102,7 @@ function UserNavbar() {
                                 >
                                     <span>{item.name}</span>
                                 </Link>
-                                {currentPath.startsWith(item.href) && (
+                                {currentPath.startsWith(item.mainRoute) && (
                                     <span className="absolute -left-[5px] -right-[5px] bottom-0 h-[3px] bg-[#FFC20E] rounded-t-md"></span>
                                 )}
                             </div>

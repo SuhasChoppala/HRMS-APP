@@ -8,21 +8,57 @@ export const userResgistration = createAsyncThunk('userResgistration', async (pa
         const newUser = {
             id: `${totalEmployeesLength.length + 1}`,
             name: `${payload.name}`,
-            email: `${payload.email}`,
             password: `${payload.password}`,
             contact_details: {
-                phone_number: `${payload.phone_number}`,
-                address: `${payload.address}`
+                phoneNumber: `${payload.phone_number}`,
+                phoneNumber2: "",
+                email: `${payload.email}`,
+                address: `${payload.address}`,
+                state: "",
+                city: ""
             },
+            educational_qualifications: {
+                academic_records: [
+                    {
+                        institution_name: "",
+                        degree: "",
+                        department: "",
+                        enroll_date: "",
+                        passout_date: ""
+                    }
+                ],
+                professional_qualifications: [
+                    {
+                        company_name: "",
+                        location: "",
+                        start_date: "",
+                        end_date: ""
+                    }
+                ]
+            },
+            guarantor_details: [
+                {
+                    guarantors_name: "",
+                    occupation: "",
+                    mobile_number: ""
+                }
+            ],
+            financial_details: [
+                {
+                    bank_name: "",
+                    account_number: "",
+                    account_holder_name: ""
+                }
+            ],
             department: `${payload.department}`,
             job_title: `${payload.job_title}`,
             start_date: `${payload.start_date}`,
             category: `${payload.category}`,
             gender: `${payload.gender}`,
             salary_amount: `${payload.salary}`,
-            salary_status: `${"Not Paid"}`,
+            salary_status: "Not Paid",
             date_of_birth: `${payload.date_of_birth}`
-        }
+        };
 
         console.log("Registering new user:", newUser);
 

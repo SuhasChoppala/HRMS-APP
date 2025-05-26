@@ -1,6 +1,7 @@
 'use client';
 import Image from 'next/image';
 import Link from "next/link";
+import { FaArrowLeft } from "react-icons/fa";
 import { useSelector, useDispatch } from "react-redux";
 import { loginUserApi } from '../../slices/loginSliceUser';
 import { useForm } from 'react-hook-form';
@@ -80,6 +81,16 @@ function UserLogin() {
                             Don’t have an account yet?
                             <Link href="/user/register-user" className="text-blue-900 font-semibold"> Join KRIS today.</Link>
                         </p>
+
+                        <div className="flex justify-center text-center mt-4">
+                            <Link
+                                href="/"
+                                className="text-sm text-blue-900 hover:underline font-medium flex items-center gap-1"
+                            >
+                                <FaArrowLeft className="text-blue-900 text-xs" />
+                                Back
+                            </Link>
+                        </div>
                     </div>
                 </div>
             </div>

@@ -22,7 +22,7 @@ function AdminSidebar() {
         { name: "Dashboard", href: "/admin/admin-dashboard", mainRoute: "/admin/admin-dashboard", icon: "/admin-dashboard-icon.png" },
         { name: "Leave Management", href: "/admin/leave-management/leave-history", mainRoute: "/admin/leave-management", icon: "/leave-management-icon.png" },
         { name: "Employee Management", href: "/admin/employee-management", mainRoute: "/admin/employee-management", icon: "/employee-management-icon.png" },
-        { name: "Performance Management", href: "/admin/performance-management", mainRoute: "/admin/performance-management", icon: "/performance-management-icon.png" },
+        // { name: "Performance Management", href: "/admin/performance-management", mainRoute: "/admin/performance-management", icon: "/performance-management-icon.png" },
     ];
 
 

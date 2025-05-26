@@ -180,15 +180,6 @@ export const fetchPerformaceAppraisal = createAsyncThunk('fetchPerformaceApprais
     }
 })
 
-const getLoggedInUser = () => {
-    if (typeof window !== 'undefined') {
-        const storedUser = localStorage.getItem("user");
-        if (storedUser) {
-            return JSON.parse(storedUser);
-        }
-    }
-    return null;
-}
 
 export const userDashboard = createSlice({
     name: 'userDashboard',
@@ -200,7 +191,6 @@ export const userDashboard = createSlice({
             compassionateLeaves: 0,
             maternityLeaves: 0,
         },
-        loggedInUser: getLoggedInUser(),
         error: {},
         todos: [],
         todosError: {},
