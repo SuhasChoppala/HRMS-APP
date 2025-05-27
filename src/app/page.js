@@ -21,7 +21,7 @@ export default function Home() {
 
         <div className="flex flex-col gap-5">
           <Link href="/admin/login-admin">
-            <div className="bg-[#FFC20E] hover:bg-transparent text-black hover:text-white border border-transparent hover:border-white py-3 rounded-xl shadow-lg text-lg font-semibold cursor-pointer transition-all">
+            <div className="bg-transparent text-white py-3 border border-white rounded-xl shadow-lg text-lg font-semibold cursor-pointer hover:text-black hover:border-[#FFC20E] hover:bg-[#FFC20E] transition-all">
               Admin Login
             </div>
           </Link>
