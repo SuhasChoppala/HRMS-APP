@@ -1,68 +1,52 @@
 'use client';
-import { useEffect, useState } from "react";
-import { getLoggedInUser } from "@/services/authServices";
-import { useForm } from "react-hook-form";
-import { useDispatch } from "react-redux";
-import { contactDetailsUpdation } from "@/app/slices/userUpdateProfileSlice";
+import { useEffect } from 'react';
+import { useForm } from 'react-hook-form';
+import { useDispatch, useSelector } from 'react-redux';
+import { useRouter } from 'next/navigation';
+import { empContactsUpdation } from '@/app/slices/employeeManagementSlice';
+import { setClickedEmployee } from '@/app/slices/employeeManagementSlice';
 
-function UserContactDetails() {
+function EmpContactDetails() {
 
-    const [loggedInUser, setLoggedInUser] = useState(null);
-
-    const { handleSubmit, reset, getValues, register, formState: { dirtyFields } } = useForm({ defaultValues: { phoneNumber: '', phoneNumber2: '', email: '', address: '', state: '', city: '' } });
-
-    useEffect(() => {
-        const user = getLoggedInUser();
-        setLoggedInUser(user);
-        if (user) {
-            const { phoneNumber, phoneNumber2, email, address, state, city } = user.contact_details || {};
-            reset({
-                phoneNumber,
-                phoneNumber2,
-                email,
-                address,
-                state,
-                city,
-            });
-        }
-    }, []);
+    const { getValues, formState: { dirtyFields }, reset, register, handleSubmit } = useForm({ defaultValues: { phoneNumber: '', phoneNumber2: '', email: '', state: '', city: '', address: '' } });
 
     const dispatch = useDispatch();
+    const router = useRouter()
 
-    const onSubmitContactFrom = async () => {
+    const { employeeToUpdate } = useSelector(state => state.employeeManagement);
 
-        const userId = loggedInUser.id;
+    useEffect(() => {
+        if (employeeToUpdate && employeeToUpdate.id) {
+            reset(employeeToUpdate.contact_details);
+        } else {
+            router.push('/admin/employee-management')
+        }
+    }, [employeeToUpdate]);
+
+    const contactUpdateCTA = async () => {
         const allValues = getValues();
-        const entriesArray = Object.entries(allValues);
-        const modifiedFields = entriesArray.filter(([key]) => dirtyFields[key]);
-        const modifiedContactsObj = Object.fromEntries(modifiedFields);
+        const allValuesArray = Object.entries(allValues);
+        const modifiedFields = allValuesArray.filter(([key]) => dirtyFields[key]);
+        const modifiedFieldsObj = Object.fromEntries(modifiedFields);
 
-        if (modifiedContactsObj && modifiedFields.length > 0) {
-            const updatedContactDetails = {
-                ...loggedInUser.contact_details,
-                ...modifiedContactsObj
+        if (modifiedFieldsObj && modifiedFields.length > 0) {
+            const updEmpContactDetails = {
+                ...employeeToUpdate.contact_details,
+                ...modifiedFieldsObj
             }
-            const isUpdated = await dispatch(contactDetailsUpdation({ userId, updatedContactDetails })).unwrap();
+            const isUpdated = await dispatch(empContactsUpdation({ updEmpContactDetails, employeeToUpdate })).unwrap();
             if (isUpdated) {
-                const updatedUser = {
-                    ...loggedInUser,
-                    contact_details: {
-                        ...loggedInUser.contact_details,
-                        ...modifiedContactsObj
-                    }
-                };
-                localStorage.setItem("user", JSON.stringify(updatedUser));
-                setLoggedInUser(updatedUser);
-                window.alert("Contact details has been updated succesfully")
+                dispatch(setClickedEmployee({ ...employeeToUpdate, contact_details: updEmpContactDetails }));
+                window.alert('Contact details of employee updated succesfully')
             }
         } else {
-            window.alert('Update failed as no changes are made');
+            window.alert('Updation failed as no changes were made');
         }
     }
 
     return (
         <div>
-            <form noValidate className="space-y-6" onSubmit={handleSubmit(onSubmitContactFrom)}>
+            <form noValidate className="space-y-6" onSubmit={handleSubmit(contactUpdateCTA)}>
                 <div className="grid grid-cols-2 gap-4">
                     <div>
                         <label className="block mb-1 text-sm mb-2 font-semibold">Phone Number 1</label>
@@ -130,4 +114,4 @@ function UserContactDetails() {
     )
 }
 
-export default UserContactDetails;
+export default EmpContactDetails;

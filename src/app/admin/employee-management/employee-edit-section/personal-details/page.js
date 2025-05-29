@@ -4,6 +4,8 @@ import { useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { useDispatch, useSelector } from 'react-redux';
 import { useRouter } from 'next/navigation';
+import { empPersonalsUpdation } from '@/app/slices/employeeManagementSlice';
+import { setClickedEmployee } from '@/app/slices/employeeManagementSlice';
 
 function EmpPersonalDetails() {
 
@@ -21,10 +23,26 @@ function EmpPersonalDetails() {
         } else {
             router.push('/admin/employee-management')
         }
-    }, [])
+    }, [employeeToUpdate])
+
+    const personalUpdationCTA = async () => {
+        const allValues = getValues();
+        const allValuesArray = Object.entries(allValues);
+        const modifiedValues = allValuesArray.filter(([key]) => dirtyFields[key]);
+        const modifiedValuesObj = Object.fromEntries(modifiedValues);
+        if (modifiedValuesObj && modifiedValues.length > 0) {
+            const isUserUpdated = await dispatch(empPersonalsUpdation({ employeeToUpdate, modifiedValuesObj })).unwrap();
+            if (isUserUpdated) {
+                dispatch(setClickedEmployee({ ...employeeToUpdate, ...modifiedValuesObj }));
+                window.alert('Employee details updated succesfully')
+            }
+        } else {
+            window.alert('Updation failed as no changes are made');
+        }
+    }
 
     return (
-        <form noValidate onSubmit={handleSubmit()} className="flex items-center justify-center p-4">
+        <form noValidate onSubmit={handleSubmit(personalUpdationCTA)} className="flex items-center justify-center p-4">
             <div className="relative w-full rounded-xl bg-white p-6 text-center">
 
                 <div className="flex justify-center">

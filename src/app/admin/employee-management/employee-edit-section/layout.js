@@ -1,8 +1,7 @@
 'use client';
 
-import EmployeeEditSidebar from '@/app/components/employeeEditSideBar';
+import EmployeeEditSidebar from '@/app/components/employeeEditSidebar';
 import React from 'react';
-import { useEffect } from 'react';
 import { useSelector } from 'react-redux';
 
 function EmployeeEditLayout({ children }) {
