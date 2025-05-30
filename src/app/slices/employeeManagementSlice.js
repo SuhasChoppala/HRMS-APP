@@ -96,13 +96,34 @@ export const empProfRecordUpdation = createAsyncThunk('empProfRecordUpdation', a
     }
 })
 
+
+export const empGuarantorUpdation = createAsyncThunk('empGuarantorUpdation', async (payload, { rejectWithValue }) => {
+    try {
+        const emp = await axios.get(`http://localhost:4000/employees/${payload.empID}`);
+        const fullEmployeeObj = emp.data;
+
+        const allGuarantors = fullEmployeeObj.guarantor_details;
+        const updatedGuarantors = allGuarantors.map(guarantor => guarantor.id === payload.updatedGuarantor.id ? payload.updatedGuarantor : guarantor);
+
+        const empUpdate = await axios.patch(`http://localhost:4000/employees/${payload.empID}`, { guarantor_details: updatedGuarantors });
+        if (empUpdate) {
+            return empUpdate.data;
+        } else {
+            return rejectWithValue('Guarantor Updation Failed');
+        }
+    } catch (error) {
+        return rejectWithValue(error?.response?.data || 'Something went wrong');
+    }
+})
+
 const employeeManagementSlice = createSlice({
     name: 'employeeManagementSlice',
     initialState: {
         allEmployees: [],
         allEmployeesError: {},
         employeeToUpdate: {},
-        empEducRecordToUpdate: {}
+        empEducRecordToUpdate: {},
+        empGuarantorToUpdate: {}
     },
     reducers: {
         setClickedEmployee(state, action) {
@@ -110,6 +131,9 @@ const employeeManagementSlice = createSlice({
         },
         setClickedEducRecord(state, action) {
             return { ...state, empEducRecordToUpdate: action.payload };
+        },
+        setClickedGuarantorRecord(state, action) {
+            return { ...state, empGuarantorToUpdate: action.payload };
         }
     },
 
@@ -127,5 +151,5 @@ const employeeManagementSlice = createSlice({
     }
 })
 
-export const { setClickedEmployee, setClickedEducRecord } = employeeManagementSlice.actions;
+export const { setClickedEmployee, setClickedEducRecord, setClickedGuarantorRecord } = employeeManagementSlice.actions;
 export default employeeManagementSlice.reducer;
