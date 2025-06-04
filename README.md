@@ -21,9 +21,6 @@ Routing: Next.js File based routing
 Authentication: Supabase/Auth0/Firebase or custom JWT
 
 
-Date Handling: date-fns or dayjs
-
-
 API Communication: Axios
 
 
