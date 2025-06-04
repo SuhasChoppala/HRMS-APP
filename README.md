@@ -103,7 +103,6 @@ The application will be available at `http://localhost:3000`
 - Dynamic routing based on user role
 - Real-time notifications
 - Profile management
-- Password reset functionality
 
 ## 🔐 Authentication
 
