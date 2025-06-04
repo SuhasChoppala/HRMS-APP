@@ -11,8 +11,6 @@ function EmployeeEditSidebar() {
         { name: "Contact Details", href: "/admin/employee-management/employee-edit-section/contact-details" },
         { name: "Education Qualifications", href: "/admin/employee-management/employee-edit-section/education-details" },
         { name: "Guarantor Details", href: "/admin/employee-management/employee-edit-section/guarantor-details" },
-        { name: "Job Details", href: "/admin/employee-management/employee-edit-section/job-details" },
-        { name: "Financial Details", href: "/admin/employee-management/employee-edit-section/financial-details" },
     ]
     return (
         <div className="w-1/4 bg-white p-6 rounded-md shadow-sm flex flex-col gap-3">
