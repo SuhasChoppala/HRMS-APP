@@ -1,156 +1,128 @@
-Here's a structured document covering the setup and requirements for the HRMS project built using React, Next.js, and Tailwind CSS.
+# HRMS Platform (React + Next.js)
 
-📁 Project Document: HRMS Platform (React + Next.js)
-🔧 1. Project Setup
-1.1 Tech Stack
-Frontend Framework: React.s
+A modern Human Resource Management System built with React, Next.js, and Tailwind CSS.
 
+## 🔧 Tech Stack
 
-Build Tool: Next.js
+- **Frontend Framework:** React
+- **Build Tool:** Next.js
+- **Styling:** Tailwind CSS
+- **State Management:** Redux Toolkit
+- **Routing:** Next.js File-based routing
+- **API Communication:** Axios
+- **Form Handling:** React Hook Form
 
+## 📁 Project Structure
 
-Styling: Tailwind CSS
-
-
-State Management: Redux Toolkit
-
-
-Routing: Next.js File based routing
-
-
-Authentication: Supabase/Auth0/Firebase or custom JWT
-
-
-API Communication: Axios
-
-
-Form Handling: React Hook Form + for validation
-
-1.2 Project Initialization
-# Create a new Next.js project with App Router
-npx create-next-app@latest hrms-dashboard --typescript --app
-
-cd hrms-dashboard
-
-# Install Tailwind CSS and required dependencies
-npm install -D tailwindcss postcss autoprefixer
-npx tailwindcss init -p
-
-
-/** @type {import('tailwindcss').Config} */
-module.exports = {
-  content: [
-    "./app/**/*.{js,ts,jsx,tsx}",
-    "./components/**/*.{js,ts,jsx,tsx}",
-    "./features/**/*.{js,ts,jsx,tsx}",
-  ],
-  theme: {
-    extend: {},
-  },
-  plugins: [],
-}
-
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
-
-
-1.3 Production-Level Project Structure
+```
 HRMS-APP/
-├── public/                  
-├── app/                    # Routing (App Router - Next.js)
-│   ├── admin/              # Admin dashboard routes
-│   ├── components/         # Reusable UI components  
-│   ├── slices            
-│   ├── user/               # User Dashboard router
-│   └── layout.js           # Root layout
-│   └── store.js            # Redux Toolkit store setup
-│   
-├── services/               # Axios API calls
-├── next.config.js
-└── package.json
+├── src/                   # Source directory
+│   ├── app/               # Next.js App Router
+│   │   ├── admin/         # Admin dashboard routes
+│   │   ├── components/    # Reusable UI components
+│   │   ├── slices/        # Redux slices
+│   │   ├── user/          # User dashboard routes
+│   │   ├── layout.js      # Root layout
+│   │   ├── page.js        # Home page
+│   │   ├── store.js       # Redux store configuration
+│   │   └── globals.css    # Global styles
+│   └── services/          # API services and utilities
+├── public/                # Static files
+├── node_modules/          # Dependencies
+├── next.config.mjs        # Next.js configuration
+├── package.json           # Project dependencies and scripts
+├── postcss.config.mjs     # PostCSS configuration
+├── eslint.config.mjs      # ESLint configuration
+└── jsconfig.json          # JavaScript configuration
+```
 
+## Getting Started
 
-📃 2. Functional Requirements Document (FRD)
-2.1 Overview
-The HRMS system serves two roles:
-Admin: Manages users and oversees organizational activities.
+1. **Clone the repository**
+```bash
+git clone [repository-url]
+cd HRMS-APP
+```
 
+2. **Install dependencies**
+```bash
+npm install
+```
 
-User: Regular employee managing their tasks, leaves, and profile updation.
+3. **Run the development server**
+```bash
+npm run dev
+```
 
+The application will be available at `http://localhost:3000`
 
+## 📋 Features
 
-2.2 Role: Admin
-Modules:
+### Admin Dashboard
+- Employee profile management
+  - View and manage employee profiles
+  - Update employee information
+  - Track employee records
+- Leave management system
+  - Review all leave applications
+  - Approve, reject, or recall leaves
+  - Monitor leave balances
+- Employee data management
+  - Add/remove employees
+  - Manage roles and permissions
+  - Track attendance
+- Administrative dashboard widgets
+  - Employee statistics
+  - Leave statistics
+  - Department overview
+  - Recent activities
 
-View Employee profiles
+### User Dashboard
+- Leave Management
+  - Apply for leave
+  - Track leave status (Pending/Approved/Rejected)
+  - View leave balance
+  - Leave history
+- Task Management
+  - Create and update tasks
+  - Mark tasks as completed
+  - Set task priorities
+  - Track task progress
+- Dashboard Widgets
+  - Birthday reminders
+  - Company announcements
+  - To-do lists
+  - Leave summary
+  - Notifications
+  - Upcoming events
 
+### Common Features
+- Secure authentication system
+- Role-based access control
+- Responsive design
+- Dynamic routing based on user role
+- Real-time notifications
+- Profile management
+- Password reset functionality
 
-Leave Management
+## 🔐 Authentication
 
+The application implements secure authentication using [Authentication Provider]. Protected routes ensure that users can only access authorized sections based on their role.
 
-Employee Management
+## 📱 Responsive Design
 
+The UI is fully responsive and optimized for:
+- Desktop computers
+- Tablets
 
-View all leave applications
+## 🛠️ Development
 
+### Prerequisites
+- Node.js 18.x or higher
+- npm 9.x or higher
 
-Approve, Reject, or Recall leaves
-
-
-Dashboard Widgets
-
-
-
-2.3 Role: User
-Modules:
-Leave Management
-
-
-Apply for leave
-
-
-View leave status (Pending, Approved, Rejected)
-
-
-See remaining leave balance
-
-
-Task Management
-
-
-Update, and mark tasks as completed
-
-
-Dashboard Widgets
-
-
-Birthday reminders
-
-
-Company announcements
-
-
-To-dos
-
-
-Leaves summary (applied & remaining)
-
-
-Notifications
-
-
-
-2.4 Common Functionalities
-Feature
-Description
-Auth System
-Login/logout with protected routes
-Responsive UI for web 
-Role-based UI
-Dynamic routing and rendering per role
-
-
-
-
+### Scripts
+- `npm run dev` - Start development server
+- `npm run build` - Build for production
+- `npm start` - Start production server
+- `npm run lint` - Run ESLint
