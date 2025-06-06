@@ -21,7 +21,7 @@ function RecallApprovalForm({ setIsRecallApprOpen, leaveToRespond, allLeaveAppli
 
     useEffect(() => {
         dispatch(filterRecallLeave(leaveToRespond));
-    }, []);
+    }, [dispatch, leaveToRespond]);
 
     const { recalledLeaveToRespond } = useSelector(state => state.leaveApplication);
 

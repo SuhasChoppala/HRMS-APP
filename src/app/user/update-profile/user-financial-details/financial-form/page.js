@@ -34,7 +34,7 @@ function FinancialForm() {
         } else {
             router.push('/user/update-profile/user-financial-details')
         }
-    }, [])
+    }, [finRecordToUpdate, reset, router])
 
     const financialUpdationCTA = async () => {
         const userID = loggedInUser.id;
@@ -104,7 +104,7 @@ function FinancialForm() {
                 </div>
 
                 <div>
-                    <label className="block mb-1 text-sm mb-2 font-semibold">Account Holder's Name</label>
+                    <label className="block mb-1 text-sm mb-2 font-semibold">Account Holder&apos;s Name</label>
                     <input
                         {...register('account_holder_name')}
                         type="text"

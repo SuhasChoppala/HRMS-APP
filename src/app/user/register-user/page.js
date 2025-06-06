@@ -15,7 +15,7 @@ function UserRegister() {
 
     useEffect(() => {
         dispatch(fetchingAllEmployees());
-    }, [])
+    }, [dispatch])
 
     const registerUserCTA = async (data) => {
         try {

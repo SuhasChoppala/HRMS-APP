@@ -21,7 +21,7 @@ function EmpContactDetails() {
         } else {
             router.push('/admin/employee-management')
         }
-    }, [employeeToUpdate]);
+    }, [employeeToUpdate, reset, router]);
 
     const contactUpdateCTA = async () => {
         const allValues = getValues();

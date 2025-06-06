@@ -45,7 +45,7 @@ function UserDashboard() {
             dispatch(fetchPerformaceAppraisal(loggedInUser.id));
             dispatch(fetchAllMessagesInDB());
         }
-    }, [loggedInUser]);
+    }, [loggedInUser, , dispatch]);
 
     const toggleTODOstatus = async (todoID, currentStatus) => {
         const status = !currentStatus;
@@ -236,7 +236,7 @@ function UserDashboard() {
                             {employeeBirthday?.length > 0 ? (
                                 employeeBirthday?.map((bdayEmployee, index) => (
                                     <div key={index} className="flex justify-between items-center mb-2 py-3 px-4 bg-[#E3EDF9] text-[#545559] rounded-xl font-semibold">
-                                        {bdayEmployee.name === loggedInUser.name ? (<span>Its Your Birthday  🎉</span>) : (<span>{bdayEmployee.name}'s day</span>)}
+                                        {bdayEmployee.name === loggedInUser.name ? (<span>Its Your Birthday  🎉</span>) : (<span>{bdayEmployee.name}&apos;s day</span>)}
                                         {bdayEmployee.name === loggedInUser.name ? null : (
                                             <button
                                                 onClick={() => sendWishesCTA(bdayEmployee.id)}
@@ -303,8 +303,9 @@ function UserDashboard() {
                     </div>
                 </div>
 
-            )}
-        </div>
+            )
+            }
+        </div >
     )
 }
 

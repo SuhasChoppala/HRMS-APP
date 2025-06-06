@@ -24,7 +24,7 @@ function EmpGuarantorForm() {
         } else {
             router.push('/admin/employee-management/employee-edit-section/guarantor-details')
         }
-    }, [])
+    }, [empGuarantorToUpdate, reset, router])
 
     const empGuarantorUpdateCTA = async () => {
         const empID = employeeToUpdate.id;
@@ -75,7 +75,7 @@ function EmpGuarantorForm() {
             <form noValidate className="space-y-6" onSubmit={handleSubmit(empGuarantorUpdateCTA)}>
                 <div className="grid grid-cols-2 gap-4">
                     <div>
-                        <label className="block mb-1 text-sm mb-2 font-semibold">Guarantor's Name</label>
+                        <label className="block mb-1 text-sm mb-2 font-semibold">Guarantor&apos;s Name</label>
                         <input
                             {...register('guarantors_name')}
                             type="text"

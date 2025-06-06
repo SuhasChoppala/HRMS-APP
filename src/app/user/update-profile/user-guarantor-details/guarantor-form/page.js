@@ -34,7 +34,7 @@ function GuarantorForm() {
         } else {
             router.push('/user/update-profile/user-guarantor-details')
         }
-    }, [])
+    }, [guarantorToUpdate, reset, router])
 
     const guarantorUpdationCTA = async () => {
         const userID = loggedInUser.id;
@@ -86,7 +86,7 @@ function GuarantorForm() {
             <form noValidate className="space-y-6" onSubmit={handleSubmit(guarantorUpdationCTA)}>
                 <div className="grid grid-cols-2 gap-4">
                     <div>
-                        <label className="block mb-1 text-sm mb-2 font-semibold">Guarantor's Name</label>
+                        <label className="block mb-1 text-sm mb-2 font-semibold">Guarantor&apos;s Name</label>
                         <input
                             {...register('guarantors_name')}
                             type="text"

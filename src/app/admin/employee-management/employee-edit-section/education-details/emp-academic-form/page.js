@@ -24,7 +24,7 @@ function EmpAcademicForm() {
         } else {
             router.push('/admin/employee-management/employee-edit-section/education-details');
         }
-    }, [])
+    }, [empEducRecordToUpdate.type, empEducRecordToUpdate.recordToUpdate, reset, router])
 
     const updateAcadCTA = async () => {
         const empID = employeeToUpdate.id;

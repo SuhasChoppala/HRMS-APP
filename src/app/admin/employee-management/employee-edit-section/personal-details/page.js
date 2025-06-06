@@ -23,7 +23,7 @@ function EmpPersonalDetails() {
         } else {
             router.push('/admin/employee-management')
         }
-    }, [employeeToUpdate])
+    }, [employeeToUpdate, reset, router])
 
     const personalUpdationCTA = async () => {
         const allValues = getValues();

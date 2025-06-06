@@ -19,7 +19,7 @@ function EmpGuarantorDetails() {
         if (!employeeToUpdate?.guarantor_details) {
             router.push('/admin/employee-management');
         }
-    }, [employeeToUpdate]);
+    }, [employeeToUpdate, router]);
 
     const setGuarantorCTA = (clickedGuarantor) => {
         dispatch(setClickedGuarantorRecord(clickedGuarantor));

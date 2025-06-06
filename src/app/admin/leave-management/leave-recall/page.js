@@ -13,7 +13,7 @@ function LeaveRecall() {
 
     useEffect(() => {
         dispatch(allLeaveApplications())
-    }, []);
+    }, [dispatch]);
 
     const { totalLeaveApplications } = useSelector(state => state.leaveApplication);
 

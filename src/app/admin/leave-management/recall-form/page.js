@@ -18,7 +18,7 @@ function RecallForm({ setIsRecallFormOpen, leaveToRecall, allLeaveApplications }
     useEffect(() => {
         dispatch(getAllLeaveRecalls());
         dispatch(fetchAllMessagesInDB());
-    }, [])
+    }, [dispatch])
 
     const { register, watch, handleSubmit, reset, formState: { errors } } = useForm();
 
@@ -29,9 +29,9 @@ function RecallForm({ setIsRecallFormOpen, leaveToRecall, allLeaveApplications }
         return new Date(`${year}-${month}-${day}`);
     }
 
-    const end = parseDDMMYYYY(leaveToRecall.end_date);;
+    const end = leaveToRecall?.end_date ? parseDDMMYYYY(leaveToRecall.end_date) : null;
     const currentDate = new Date();
-    const daysRemaining = differenceInCalendarDays(end, currentDate);
+    const daysRemaining = end ? differenceInCalendarDays(end, currentDate) : 0;
 
     const recallLeaveCTA = async (formData) => {
         const formatDate = (isoDate) => {
@@ -88,7 +88,7 @@ function RecallForm({ setIsRecallFormOpen, leaveToRecall, allLeaveApplications }
                                 <input
                                     type="text"
                                     {...register('employee_name')}
-                                    value={leaveToRecall.name}
+                                    value={leaveToRecall?.name}
                                     readOnly
                                     className="w-full mt-2 bg-[#E3EDF9] text-sm text-[#000000B2] rounded-md px-4 py-2 outline-none"
                                 />
@@ -98,7 +98,7 @@ function RecallForm({ setIsRecallFormOpen, leaveToRecall, allLeaveApplications }
                                 <input
                                     type="number"
                                     {...register('days_remaining')}
-                                    value={daysRemaining}
+                                    value={daysRemaining || 0}
                                     readOnly
                                     className="w-full mt-2 bg-[#E3EDF9] text-sm text-[#000000B2] px-4 py-2 rounded-md outline-none"
                                 />
@@ -112,7 +112,7 @@ function RecallForm({ setIsRecallFormOpen, leaveToRecall, allLeaveApplications }
                                 <input
                                     type="text"
                                     {...register('start_date')}
-                                    value={leaveToRecall.start_date}
+                                    value={leaveToRecall?.start_date}
                                     readOnly
                                     className="w-full mt-2 bg-[#E3EDF9] text-sm text-[#000000B2] rounded-md px-4 py-2 outline-none"
                                 />
@@ -122,7 +122,7 @@ function RecallForm({ setIsRecallFormOpen, leaveToRecall, allLeaveApplications }
                                 <input
                                     type="text"
                                     {...register('end_date')}
-                                    value={leaveToRecall.end_date}
+                                    value={leaveToRecall?.end_date}
                                     readOnly
                                     className="w-full mt-2 bg-[#E3EDF9] text-sm text-[#000000B2] rounded-md px-4 py-2 outline-none"
                                 />
@@ -136,7 +136,7 @@ function RecallForm({ setIsRecallFormOpen, leaveToRecall, allLeaveApplications }
                                 <input
                                     type="text"
                                     {...register('resumption_date')}
-                                    value={leaveToRecall.resumption_date}
+                                    value={leaveToRecall?.resumption_date}
                                     readOnly
                                     className="w-full mt-2 bg-[#E3EDF9] text-sm text-[#000000B2] rounded-md px-4 py-2 outline-none"
                                 />

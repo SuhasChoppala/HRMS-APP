@@ -16,7 +16,7 @@ function EmpEducationDetails() {
         if (!employeeToUpdate?.educational_qualifications?.academic_records || !employeeToUpdate?.educational_qualifications?.professional_qualifications) {
             router.push('/admin/employee-management');
         }
-    }, [employeeToUpdate]);
+    }, [employeeToUpdate, router]);
 
     const dispatch = useDispatch();
 

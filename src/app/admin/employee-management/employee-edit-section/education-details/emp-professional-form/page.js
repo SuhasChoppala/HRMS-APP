@@ -24,7 +24,7 @@ function EmpProfessionalForm() {
         } else {
             router.push('/admin/employee-management/employee-edit-section/education-details');
         }
-    }, []);
+    }, [empEducRecordToUpdate.type, empEducRecordToUpdate.recordToUpdate, reset, router]);
 
     const profUpdateCTA = async () => {
         const employeeID = employeeToUpdate.id;

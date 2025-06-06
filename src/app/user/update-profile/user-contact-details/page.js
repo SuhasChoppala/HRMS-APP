@@ -25,7 +25,7 @@ function UserContactDetails() {
                 city,
             });
         }
-    }, []);
+    }, [reset]);
 
     const dispatch = useDispatch();
 

@@ -13,7 +13,7 @@ function AdminDashboard() {
     useEffect(() => {
         dispatch(fetchAllEmployees());
         dispatch(fetchAllAppliedJobs())
-    }, []);
+    }, [dispatch]);
 
     const [isAdminActive, setIsAdminActive] = useState(null);
 

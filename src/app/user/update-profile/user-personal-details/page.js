@@ -19,7 +19,7 @@ function UserPersonalDetails() {
         if (user) {
             reset(user);
         }
-    }, []);
+    }, [reset]);
 
     const onSubmit = async () => {
         const userID = loggedInUser.id;

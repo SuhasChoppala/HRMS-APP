@@ -13,7 +13,7 @@ function EmployeeManagement() {
 
     useEffect(() => {
         dispatch(getAllEmployees());
-    }, [])
+    }, [dispatch])
 
     const { allEmployees } = useSelector(state => state.employeeManagement);
 

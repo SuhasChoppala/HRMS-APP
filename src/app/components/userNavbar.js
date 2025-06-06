@@ -35,7 +35,7 @@ function UserNavbar() {
         if (loggedInUser && loggedInUser.id) {
             dispatch(fetchMessages(loggedInUser.id));
         }
-    }, [loggedInUser]);
+    }, [loggedInUser, dispatch]);
 
     const openMessagesModal = () => {
         setIsMessagesModalOpen(true);

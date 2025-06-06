@@ -34,7 +34,7 @@ function AcademicForm() {
         } else {
             router.push('/user/update-profile/user-educational-details');
         }
-    }, []);
+    }, [eduRecordToUpdate.clickedRecord, reset, router]);
 
     const dispatch = useDispatch();
 

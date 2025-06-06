@@ -35,7 +35,7 @@ function ProfessionalForm() {
         } else {
             router.push('/user/update-profile/user-educational-details');
         }
-    }, [])
+    }, [eduRecordToUpdate.clickedRecord, reset, router])
 
     const updateProfRecordCTA = async () => {
 
