@@ -1,9 +1,11 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import axios from "axios";
 
+axios.defaults.baseURL = process.env.NEXT_PUBLIC_BACKEND_URL;
+
 export const getAllEmployees = createAsyncThunk('fetchAllEmployees', async (payload, { rejectWithValue }) => {
     try {
-        const response = await axios.get('http://localhost:4000/employees');
+        const response = await axios.get('/employees');
         const allEmployees = response.data;
 
         if (allEmployees) {
@@ -18,7 +20,7 @@ export const getAllEmployees = createAsyncThunk('fetchAllEmployees', async (payl
 
 export const empPersonalsUpdation = createAsyncThunk('empPersonalsUpdation', async (payload, { rejectWithValue }) => {
     try {
-        const isDetailsUpdated = await axios.patch(`http://localhost:4000/employees/${payload.employeeToUpdate.id}`, payload.modifiedValuesObj);
+        const isDetailsUpdated = await axios.patch(`/employees/${payload.employeeToUpdate.id}`, payload.modifiedValuesObj);
         if (isDetailsUpdated) {
             return isDetailsUpdated.data;
         } else {
@@ -31,7 +33,7 @@ export const empPersonalsUpdation = createAsyncThunk('empPersonalsUpdation', asy
 
 export const empContactsUpdation = createAsyncThunk('empContactsUpdation', async (payload, { rejectWithValue }) => {
     try {
-        const isContactsUpdated = await axios.patch(`http://localhost:4000/employees/${payload.employeeToUpdate.id}`, { contact_details: payload.updEmpContactDetails });
+        const isContactsUpdated = await axios.patch(`/employees/${payload.employeeToUpdate.id}`, { contact_details: payload.updEmpContactDetails });
         if (isContactsUpdated) {
             return isContactsUpdated.data;
         } else {
@@ -44,7 +46,7 @@ export const empContactsUpdation = createAsyncThunk('empContactsUpdation', async
 
 export const empAcadRecordUpdation = createAsyncThunk('empAcadRecordUpdation', async (payload, { rejectWithValue }) => {
     try {
-        const response = await axios.get(`http://localhost:4000/employees/${payload.empID}`);
+        const response = await axios.get(`/employees/${payload.empID}`);
         const fullEmpData = response.data;
 
         const allAcadRecords = fullEmpData.educational_qualifications.academic_records;
@@ -58,7 +60,7 @@ export const empAcadRecordUpdation = createAsyncThunk('empAcadRecordUpdation', a
             }
         }
 
-        const empUpdation = await axios.patch(`http://localhost:4000/employees/${payload.empID}`, patchPayload);
+        const empUpdation = await axios.patch(`/employees/${payload.empID}`, patchPayload);
         if (empUpdation) {
             return empUpdation.data;
         } else {
@@ -71,7 +73,7 @@ export const empAcadRecordUpdation = createAsyncThunk('empAcadRecordUpdation', a
 
 export const empProfRecordUpdation = createAsyncThunk('empProfRecordUpdation', async (payload, { rejectWithValue }) => {
     try {
-        const responseEmp = await axios.get(`http://localhost:4000/employees/${payload.employeeID}`);
+        const responseEmp = await axios.get(`/employees/${payload.employeeID}`);
         const completeEmpData = responseEmp.data;
 
         const allProfRecords = completeEmpData.educational_qualifications.professional_qualifications;
@@ -85,7 +87,7 @@ export const empProfRecordUpdation = createAsyncThunk('empProfRecordUpdation', a
             }
         }
 
-        const employeeUpdation = await axios.patch(`http://localhost:4000/employees/${payload.employeeID}`, patchPayloadData);
+        const employeeUpdation = await axios.patch(`/employees/${payload.employeeID}`, patchPayloadData);
         if (employeeUpdation) {
             return employeeUpdation.data;
         } else {
@@ -99,13 +101,13 @@ export const empProfRecordUpdation = createAsyncThunk('empProfRecordUpdation', a
 
 export const empGuarantorUpdation = createAsyncThunk('empGuarantorUpdation', async (payload, { rejectWithValue }) => {
     try {
-        const emp = await axios.get(`http://localhost:4000/employees/${payload.empID}`);
+        const emp = await axios.get(`/employees/${payload.empID}`);
         const fullEmployeeObj = emp.data;
 
         const allGuarantors = fullEmployeeObj.guarantor_details;
         const updatedGuarantors = allGuarantors.map(guarantor => guarantor.id === payload.updatedGuarantor.id ? payload.updatedGuarantor : guarantor);
 
-        const empUpdate = await axios.patch(`http://localhost:4000/employees/${payload.empID}`, { guarantor_details: updatedGuarantors });
+        const empUpdate = await axios.patch(`/employees/${payload.empID}`, { guarantor_details: updatedGuarantors });
         if (empUpdate) {
             return empUpdate.data;
         } else {

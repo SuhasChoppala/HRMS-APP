@@ -1,6 +1,8 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import axios from "axios";
 
+axios.defaults.baseURL = process.env.NEXT_PUBLIC_BACKEND_URL;
+
 export const applyLeave = createAsyncThunk('applyLeave', async (payload, { rejectWithValue, getState }) => {
     try {
         const state = getState();
@@ -18,7 +20,7 @@ export const applyLeave = createAsyncThunk('applyLeave', async (payload, { rejec
             status: 'created'
         }
         console.log(leaveApplication);
-        const leavesResponse = await axios.post('http://localhost:4000/leavesApplications', leaveApplication);
+        const leavesResponse = await axios.post('/leavesApplications', leaveApplication);
         return leavesResponse.data;
     } catch (error) {
         console.log('Error:', error)
@@ -29,7 +31,7 @@ export const applyLeave = createAsyncThunk('applyLeave', async (payload, { rejec
 export const leaveWithdraw = createAsyncThunk('leaveWithdraw', async (payload, { rejectWithValue }) => {
     try {
         console.log('Deleting leave with ID:', payload.id);
-        const withdrawResponse = await axios.delete(`http://localhost:4000/leavesApplications/${payload.id}`);
+        const withdrawResponse = await axios.delete(`/leavesApplications/${payload.id}`);
         return withdrawResponse.data;
     } catch (error) {
         return rejectWithValue(error.response?.data || 'Something went wrong');
@@ -38,7 +40,7 @@ export const leaveWithdraw = createAsyncThunk('leaveWithdraw', async (payload, {
 
 export const allLeaveApplications = createAsyncThunk('allLeaveApplications', async (payload, { rejectWithValue }) => {
     try {
-        const allLeavesResp = await axios.get('http://localhost:4000/leavesApplications');
+        const allLeavesResp = await axios.get('/leavesApplications');
         const allLeaves = allLeavesResp.data;
         if (allLeaves) {
             return allLeaves;
@@ -52,7 +54,7 @@ export const allLeaveApplications = createAsyncThunk('allLeaveApplications', asy
 
 export const filterRecallLeave = createAsyncThunk('filterRecallLeave', async (payload, { rejectWithValue }) => {
     try {
-        const leaveRecalls = await axios.get('http://localhost:4000/leave_recalls');
+        const leaveRecalls = await axios.get('/leave_recalls');
         const resp = leaveRecalls.data;
         const filteredRecall = resp.find(leaveObj => leaveObj.leave_id === payload.id && leaveObj.employee_id === payload.employee_id);
         if (filteredRecall) {
@@ -68,8 +70,8 @@ export const filterRecallLeave = createAsyncThunk('filterRecallLeave', async (pa
 export const updateUserRecallResp = createAsyncThunk('updateUserRecallResp', async (payload, { rejectWithValue }) => {
     try {
         const dataToUpdate = payload.userDecision === 'Approve' ? { status: "Approved", reason_for_decline: "" } : { status: "Declined", reason_for_decline: `${payload.reason}` }
-        const isRecallStatUpdated = await axios.patch(`http://localhost:4000/leave_recalls/${payload.id}`, dataToUpdate);
-        const isLeaveDataUpdated = await axios.patch(`http://localhost:4000/leavesApplications/${payload.id}`, { end_date: payload.end_date, resumption_date: payload.resumption_date, duration: payload.duration });
+        const isRecallStatUpdated = await axios.patch(`/leave_recalls/${payload.id}`, dataToUpdate);
+        const isLeaveDataUpdated = await axios.patch(`/leavesApplications/${payload.id}`, { end_date: payload.end_date, resumption_date: payload.resumption_date, duration: payload.duration });
         return {
             recallStatus: isRecallStatUpdated.data,
             leaveDataUpdation: isLeaveDataUpdated.data

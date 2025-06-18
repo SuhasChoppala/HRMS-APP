@@ -1,9 +1,11 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import axios from 'axios';
 
+axios.defaults.baseURL = process.env.NEXT_PUBLIC_BACKEND_URL;
+
 export const loginUserApi = createAsyncThunk('loginUserApi', async (payload, { rejectWithValue }) => {
     try {
-        const response = await axios.get("http://localhost:4000/employees");
+        const response = await axios.get("/employees");
         const users = response.data;
         const filteredUser = users.find((user) => user.contact_details.email === payload.userEmail && user.password === payload.userPassword);
         if (filteredUser) {

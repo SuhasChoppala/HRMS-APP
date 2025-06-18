@@ -1,6 +1,8 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import axios from "axios";
 
+axios.defaults.baseURL = process.env.NEXT_PUBLIC_BACKEND_URL;
+
 export const userResgistration = createAsyncThunk('userResgistration', async (payload, { rejectWithValue, getState }) => {
     try {
         const state = getState();
@@ -62,7 +64,7 @@ export const userResgistration = createAsyncThunk('userResgistration', async (pa
 
         console.log("Registering new user:", newUser);
 
-        const regResponse = await axios.post('http://localhost:4000/employees', newUser);
+        const regResponse = await axios.post('/employees', newUser);
         if (regResponse.data) {
             return { success: true }
         }
@@ -73,7 +75,7 @@ export const userResgistration = createAsyncThunk('userResgistration', async (pa
 
 export const fetchingAllEmployees = createAsyncThunk('fetchingAllEmployees', async (payload, { rejectWithValue }) => {
     try {
-        const empResponse = await axios.get('http://localhost:4000/employees');
+        const empResponse = await axios.get('/employees');
         const totalEmployeesArray = empResponse.data;
         return totalEmployeesArray;
     } catch (error) {
