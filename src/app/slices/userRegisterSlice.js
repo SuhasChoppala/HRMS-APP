@@ -1,7 +1,7 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import axios from "axios";
 
-axios.defaults.baseURL = process.env.NEXT_PUBLIC_BACKEND_URL;
+axios.defaults.baseURL = process.env.NEXT_PUBLIC_BACKEND_URL || process.env.BACKEND_URL;
 
 export const userResgistration = createAsyncThunk('userResgistration', async (payload, { rejectWithValue, getState }) => {
     try {

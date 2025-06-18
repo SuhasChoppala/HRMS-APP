@@ -2,7 +2,7 @@ import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import axios from "axios";
 import { fetchAllMessagesInDB } from "./userDashboardSlice";
 
-axios.defaults.baseURL = process.env.NEXT_PUBLIC_BACKEND_URL;
+axios.defaults.baseURL = process.env.NEXT_PUBLIC_BACKEND_URL || process.env.BACKEND_URL;
 
 export const leaveActions = createAsyncThunk('leaveActions', async (payload, { rejectWithValue }) => {
     try {
