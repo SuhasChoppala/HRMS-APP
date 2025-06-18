@@ -1,5 +1,5 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
-import axios from 'axios';
+import api from "../../lib/axios"
 
 
 console.log(process.env.NEXT_PUBLIC_BACKEND_URL, process.env.BACKEND_URL);
