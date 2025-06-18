@@ -1,11 +1,11 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
-import axios from "axios";
+import api from "../../lib/axios"
 
-axios.defaults.baseURL = process.env.NEXT_PUBLIC_BACKEND_URL || process.env.BACKEND_URL;
+
 
 export const personalDetailsUpdation = createAsyncThunk('personalDetailsUpdation', async (payload, { rejectWithValue }) => {
     try {
-        const isUserNameUpdated = await axios.patch(`/employees/${payload.userID}`, payload.modifiedFieldsObj);
+        const isUserNameUpdated = await api.patch(`/employees/${payload.userID}`, payload.modifiedFieldsObj);
         if (isUserNameUpdated) {
             return isUserNameUpdated.data;
         } else {
@@ -18,7 +18,7 @@ export const personalDetailsUpdation = createAsyncThunk('personalDetailsUpdation
 
 export const contactDetailsUpdation = createAsyncThunk('contactDetailsUpdation', async (payload, { rejectWithValue }) => {
     try {
-        const isContactDetUpdated = await axios.patch(`/employees/${payload.userId}`, { contact_details: payload.updatedContactDetails })
+        const isContactDetUpdated = await api.patch(`/employees/${payload.userId}`, { contact_details: payload.updatedContactDetails })
         if (isContactDetUpdated) {
             return isContactDetUpdated.data;
         } else {
@@ -31,7 +31,7 @@ export const contactDetailsUpdation = createAsyncThunk('contactDetailsUpdation',
 
 export const updateAcademicRecord = createAsyncThunk('updateAcademicRecord', async (payload, { rejectWithValue }) => {
     try {
-        const response = await axios.get(`/employees/${payload.userID}`);
+        const response = await api.get(`/employees/${payload.userID}`);
         const employeeData = response.data;
 
         const allAcadRecords = employeeData.educational_qualifications.academic_records;
@@ -45,7 +45,7 @@ export const updateAcademicRecord = createAsyncThunk('updateAcademicRecord', asy
             }
         }
 
-        const isRecordUpdated = await axios.patch(`/employees/${payload.userID}`, patchPayload);
+        const isRecordUpdated = await api.patch(`/employees/${payload.userID}`, patchPayload);
 
         if (isRecordUpdated) {
             return isRecordUpdated.data;
@@ -59,7 +59,7 @@ export const updateAcademicRecord = createAsyncThunk('updateAcademicRecord', asy
 
 export const updateProfessionalRecord = createAsyncThunk('updateProfessionalRecord', async (payload, { rejectWithValue }) => {
     try {
-        const userResponse = await axios.get(`/employees/${payload.userID}`);
+        const userResponse = await api.get(`/employees/${payload.userID}`);
 
         const employeeFullData = userResponse.data;
 
@@ -74,7 +74,7 @@ export const updateProfessionalRecord = createAsyncThunk('updateProfessionalReco
             }
         }
 
-        const isProfRecordUpdated = await axios.patch(`/employees/${payload.userID}`, patchPayload);
+        const isProfRecordUpdated = await api.patch(`/employees/${payload.userID}`, patchPayload);
         if (isProfRecordUpdated) {
             return isProfRecordUpdated.data;
         } else {
@@ -87,13 +87,13 @@ export const updateProfessionalRecord = createAsyncThunk('updateProfessionalReco
 
 export const updateGuarantorDetails = createAsyncThunk('updateGuarantorDetails', async (payload, { rejectWithValue }) => {
     try {
-        const getUser = await axios.get(`/employees/${payload.userID}`);
+        const getUser = await api.get(`/employees/${payload.userID}`);
         const userFullData = getUser.data;
         const allUserGuarantors = userFullData.guarantor_details;
 
         const updatedGuarantorsArray = allUserGuarantors.map(guarantor => guarantor.id === payload.updatedGuarantorObj.id ? payload.updatedGuarantorObj : guarantor);
 
-        const isGuarantorsUpdated = await axios.patch(`/employees/${payload.userID}`, { guarantor_details: updatedGuarantorsArray });
+        const isGuarantorsUpdated = await api.patch(`/employees/${payload.userID}`, { guarantor_details: updatedGuarantorsArray });
         if (isGuarantorsUpdated) {
             return isGuarantorsUpdated.data;
         } else {
@@ -106,13 +106,13 @@ export const updateGuarantorDetails = createAsyncThunk('updateGuarantorDetails',
 
 export const updateFinancialDetails = createAsyncThunk('updatedFinancialDetails', async (payload, { rejectWithValue }) => {
     try {
-        const getCurrentUser = await axios.get(`/employees/${payload.userID}`);
+        const getCurrentUser = await api.get(`/employees/${payload.userID}`);
         const userCompleteData = getCurrentUser.data;
         const allFinancialDetails = userCompleteData.financial_details;
 
         const updatedFinancialsArray = allFinancialDetails.map(record => record.id === payload.updatedFinObject.id ? payload.updatedFinObject : record);
 
-        const isFinUpdated = await axios.patch(`/employees/${payload.userID}`, { financial_details: updatedFinancialsArray });
+        const isFinUpdated = await api.patch(`/employees/${payload.userID}`, { financial_details: updatedFinancialsArray });
         if (isFinUpdated) {
             return isFinUpdated.data;
         } else {

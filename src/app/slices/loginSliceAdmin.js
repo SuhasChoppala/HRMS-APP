@@ -1,11 +1,11 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
-import axios from "axios";
+import api from "../../lib/axios"
 
-axios.defaults.baseURL = process.env.NEXT_PUBLIC_BACKEND_URL || process.env.BACKEND_URL;
+
 
 export const loginAdminApi = createAsyncThunk('loginAdmin', async (payload, { rejectWithValue }) => {
     try {
-        const response = await axios.get('/admins')
+        const response = await api.get('/admins')
         const admins = response.data;
         const filteredAdmin = admins.find(admin => admin.email === payload.email && admin.password === payload.password);
 

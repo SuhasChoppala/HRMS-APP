@@ -1,12 +1,12 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
-import axios from "axios";
+import api from "../../lib/axios"
 
-axios.defaults.baseURL = process.env.NEXT_PUBLIC_BACKEND_URL || process.env.BACKEND_URL;
+
 
 // Fetch Leaves
 export const fetchLeaves = createAsyncThunk('fetchLeaves', async (payload, { rejectWithValue }) => {
     try {
-        const response = await axios.get('/leavesApplications');
+        const response = await api.get('/leavesApplications');
         const fetchedLeaves = response.data;
         const loggedInUserLeaves = fetchedLeaves.filter(leave => leave.employee_id === payload);
         if (loggedInUserLeaves) {
@@ -48,7 +48,7 @@ export const fetchLeaves = createAsyncThunk('fetchLeaves', async (payload, { rej
 // Fetch All Todos
 export const fetchAllTodos = createAsyncThunk('fetchAllTodos', async (payload, { rejectWithValue }) => {
     try {
-        const todosResponse = await axios.get('/todos');
+        const todosResponse = await api.get('/todos');
         const todos = todosResponse.data;
         const particularUserTodos = todos.filter(todo => todo.employee_id === payload);
 
@@ -65,7 +65,7 @@ export const fetchAllTodos = createAsyncThunk('fetchAllTodos', async (payload, {
 // Toggle Task Status
 export const toggleTaskStatus = createAsyncThunk('toggleTaskStatus', async (payload, { rejectWithValue }) => {
     try {
-        const response = await axios.patch(`/todos/${payload.todoID}`, { isCompleted: payload.status });
+        const response = await api.patch(`/todos/${payload.todoID}`, { isCompleted: payload.status });
         return response.data;
     } catch (error) {
         return rejectWithValue(error.response?.data);
@@ -75,7 +75,7 @@ export const toggleTaskStatus = createAsyncThunk('toggleTaskStatus', async (payl
 // Fetch Announcements
 export const fetchAnnouncements = createAsyncThunk('fetchAnnouncements', async (payload, { rejectWithValue }) => {
     try {
-        const announcementResponse = await axios.get('/announcements');
+        const announcementResponse = await api.get('/announcements');
         const announcements = announcementResponse.data;
 
         if (announcements) {
@@ -92,7 +92,7 @@ export const fetchAnnouncements = createAsyncThunk('fetchAnnouncements', async (
 // Fetch Payslip Breakdown
 export const fetchPayslipBreakdown = createAsyncThunk('fetchPayslipBreakdown', async (payload, { rejectWithValue }) => {
     try {
-        const payslipResponse = await axios.get('/payslip_breakdown');
+        const payslipResponse = await api.get('/payslip_breakdown');
         const data = payslipResponse.data;
         const particularUserPayslip = data.find(payslip => payslip.employee_id === payload);
 
@@ -109,7 +109,7 @@ export const fetchPayslipBreakdown = createAsyncThunk('fetchPayslipBreakdown', a
 // Fetch Birthdays
 export const fetchBirthdays = createAsyncThunk('fetchBirthdays', async (payload, { rejectWithValue }) => {
     try {
-        const employeesData = await axios.get('/employees');
+        const employeesData = await api.get('/employees');
         const data = employeesData.data;
 
         const today = new Date();
@@ -139,7 +139,7 @@ export const fetchBirthdays = createAsyncThunk('fetchBirthdays', async (payload,
 //fetchTotalMessages
 export const fetchAllMessagesInDB = createAsyncThunk('fetchAllMessagesInDB', async (payload, { rejectWithValue }) => {
     try {
-        const messages = await axios.get('/messages');
+        const messages = await api.get('/messages');
         const data = messages.data;
         return data;
     } catch (error) {
@@ -158,7 +158,7 @@ export const sendBdayWishes = createAsyncThunk('sendBdayWishes', async (payload,
             message: `${payload.message} 🎉`
         };
 
-        const wishesResponse = await axios.post(`/messages`, newMessage);
+        const wishesResponse = await api.post(`/messages`, newMessage);
         return wishesResponse.data;
     } catch (error) {
         console.log('Error:', error)
@@ -169,7 +169,7 @@ export const sendBdayWishes = createAsyncThunk('sendBdayWishes', async (payload,
 // Fetch Performance Appraisal
 export const fetchPerformaceAppraisal = createAsyncThunk('fetchPerformaceAppraisal', async (payload, { rejectWithValue }) => {
     try {
-        const performaceResponse = await axios.get('/performance_appraisal');
+        const performaceResponse = await api.get('/performance_appraisal');
         const performaceData = performaceResponse.data;
         const activeUserAppraisal = performaceData.find(user => user.employee_id === payload);
         if (activeUserAppraisal) {

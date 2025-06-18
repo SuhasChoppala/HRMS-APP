@@ -1,11 +1,11 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
-import axios from "axios";
+import api from "../../lib/axios"
 
-axios.defaults.baseURL = process.env.NEXT_PUBLIC_BACKEND_URL || process.env.BACKEND_URL;
+
 
 export const fetchMessages = createAsyncThunk('fetchMessages', async (payload, { rejectWithValue }) => {
     try {
-        const messages = await axios.get('/messages');
+        const messages = await api.get('/messages');
         const data = messages.data;
         const activeUserMessages = data.filter(user => user.employee_id === payload);
         if (activeUserMessages) {

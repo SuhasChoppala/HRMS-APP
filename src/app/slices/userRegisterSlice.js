@@ -1,7 +1,7 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
-import axios from "axios";
+import api from "../../lib/axios"
 
-axios.defaults.baseURL = process.env.NEXT_PUBLIC_BACKEND_URL || process.env.BACKEND_URL;
+
 
 export const userResgistration = createAsyncThunk('userResgistration', async (payload, { rejectWithValue, getState }) => {
     try {
@@ -64,7 +64,7 @@ export const userResgistration = createAsyncThunk('userResgistration', async (pa
 
         console.log("Registering new user:", newUser);
 
-        const regResponse = await axios.post('/employees', newUser);
+        const regResponse = await api.post('/employees', newUser);
         if (regResponse.data) {
             return { success: true }
         }
@@ -75,7 +75,7 @@ export const userResgistration = createAsyncThunk('userResgistration', async (pa
 
 export const fetchingAllEmployees = createAsyncThunk('fetchingAllEmployees', async (payload, { rejectWithValue }) => {
     try {
-        const empResponse = await axios.get('/employees');
+        const empResponse = await api.get('/employees');
         const totalEmployeesArray = empResponse.data;
         return totalEmployeesArray;
     } catch (error) {

@@ -1,11 +1,11 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
-import axios from "axios";
+import api from "../../lib/axios"
 
-axios.defaults.baseURL = process.env.NEXT_PUBLIC_BACKEND_URL || process.env.BACKEND_URL;
+
 
 export const fetchAllEmployees = createAsyncThunk('fetchAllEmployees', async (payload, { rejectWithValue }) => {
     try {
-        const fetchEmp = await axios.get('/employees');
+        const fetchEmp = await api.get('/employees');
         const employees = fetchEmp.data;
         return employees;
     } catch (error) {
@@ -15,7 +15,7 @@ export const fetchAllEmployees = createAsyncThunk('fetchAllEmployees', async (pa
 
 export const fetchAllAppliedJobs = createAsyncThunk('fetchAllAppliedJobs', async (payload, { rejectWithValue }) => {
     try {
-        const response = await axios.get('/applied_jobs');
+        const response = await api.get('/applied_jobs');
         const fetchedJobs = await response.data;
         return fetchedJobs;
     } catch (error) {

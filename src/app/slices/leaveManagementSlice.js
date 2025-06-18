@@ -1,12 +1,12 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
-import axios from "axios";
+import api from "../../lib/axios"
 import { fetchAllMessagesInDB } from "./userDashboardSlice";
 
-axios.defaults.baseURL = process.env.NEXT_PUBLIC_BACKEND_URL || process.env.BACKEND_URL;
+
 
 export const leaveActions = createAsyncThunk('leaveActions', async (payload, { rejectWithValue }) => {
     try {
-        const leaveUpdation = await axios.patch(`/leavesApplications/${payload.leave.id}`, { status: payload.action });
+        const leaveUpdation = await api.patch(`/leavesApplications/${payload.leave.id}`, { status: payload.action });
         return leaveUpdation.data;
     } catch (error) {
         return rejectWithValue(error.response?.data || 'Something went wrong');
@@ -15,7 +15,7 @@ export const leaveActions = createAsyncThunk('leaveActions', async (payload, { r
 
 export const getAllLeaveRecalls = createAsyncThunk('getAllLeaveRecalls', async (payload, { rejectWithValue }) => {
     try {
-        const responseAllRecalls = await axios.get('/leave_recalls');
+        const responseAllRecalls = await api.get('/leave_recalls');
         const response = responseAllRecalls.data;
         if (response) {
             return response;
@@ -46,14 +46,14 @@ export const leaveRecallofEmp = createAsyncThunk('leaveRecallofEmp', async (payl
             reason_for_decline: ""
         };
 
-        const recalledLeave = await axios.post('/leave_recalls', recallData);
-        const updateLeaveAppStatus = await axios.patch(`/leavesApplications/${payload.leaveToRecall.id}`, { status: "Recalled" });
+        const recalledLeave = await api.post('/leave_recalls', recallData);
+        const updateLeaveAppStatus = await api.patch(`/leavesApplications/${payload.leaveToRecall.id}`, { status: "Recalled" });
         const recallMessage = {
             id: `${state.leaveManagement.allMessagesInDB.length + 1}`,
             employee_id: `${payload.leaveToRecall.id}`,
             message: `Relief Officer ${payload.dataTopass.relief_officer_name} has recalled your leave and your new resumption date is ${payload.dataTopass.new_resumption_date}. Please check the Leave Dashboard.`,
         }
-        const sendNotification = await axios.post('/messages', recallMessage);
+        const sendNotification = await api.post('/messages', recallMessage);
         return {
             recall: recalledLeave.data,
             updatedStatus: updateLeaveAppStatus.data,
