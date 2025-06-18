@@ -2,7 +2,7 @@
 
 import Image from 'next/image';
 import Link from 'next/link';
-import { allLeaveApplications, leaveWithdraw } from '@/app/slices/userApplyLeaveSlice';
+import { allLeaveApplications, leaveWithdraw, fetchAllLeaveRecalls } from '@/app/slices/userApplyLeaveSlice';
 import { useDispatch, useSelector } from 'react-redux';
 import { useEffect, useState } from 'react';
 import RecallApprovalForm from './recall-approval-form/page';
@@ -19,9 +19,10 @@ function LeaveApplication() {
 
     useEffect(() => {
         dispatch(allLeaveApplications());
+        dispatch(fetchAllLeaveRecalls());
     }, [dispatch])
 
-    const { totalLeaveApplications } = useSelector(state => state.leaveApplication)
+    const { totalLeaveApplications, allLeaveRecalls } = useSelector(state => state.leaveApplication)
 
     const withdrawCTA = async (leave) => {
         const isWithdraw = await dispatch(leaveWithdraw(leave)).unwrap();
@@ -106,14 +107,20 @@ function LeaveApplication() {
                                             <td className="px-4 py-2 text-black text-sm text-center">{leave.reason}</td>
                                             <td className="px-4 py-2 text-black text-sm text-center">{leave.status}</td>
                                             <td className="px-4 py-2 text-center">
-                                                {leave.status === 'Recalled' ? (
-                                                    <button
-                                                        className="bg-[#253D90] text-white px-10 py-1 text-sm rounded cursor-pointer"
-                                                        onClick={() => recallApprFormCTA(leave)}
-                                                    >
-                                                        View
-                                                    </button>
-                                                ) : (
+                                                {leave.status === 'Recalled' ? (() => {
+                                                    const matchingRecall = allLeaveRecalls?.find(recall => recall.leave_id === leave.id && recall.employee_id === leave.employee_id);
+                                                    const isResponded = matchingRecall?.recall_decision === 'responded';
+
+                                                    return (
+                                                        <button
+                                                            className={`px-10 py-1 text-sm rounded ${isResponded ? 'bg-gray-400 cursor-not-allowed' : 'bg-[#253D90] text-white cursor-pointer'}`}
+                                                            onClick={() => recallApprFormCTA(leave)}
+                                                            disabled={isResponded}
+                                                        >
+                                                            View
+                                                        </button>
+                                                    );
+                                                })() : (
                                                     <div className="relative inline-block">
                                                         <select
                                                             defaultValue=""

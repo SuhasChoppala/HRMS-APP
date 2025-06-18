@@ -184,7 +184,6 @@ function RecallForm({ setIsRecallFormOpen, leaveToRecall, allLeaveApplications }
                                 type="text"
                                 {...register('relief_officer_name')}
                                 defaultValue={loggedInAdmin?.name || ''}
-                                readOnly
                                 className="w-full mt-2 bg-[#E3EDF9] text-sm text-[#000000B2] px-4 py-2 rounded-md outline-none"
                             />
                         </div>

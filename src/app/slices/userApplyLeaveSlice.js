@@ -72,14 +72,26 @@ export const updateUserRecallResp = createAsyncThunk('updateUserRecallResp', asy
         const dataToUpdate = payload.userDecision === 'Approve' ? { status: "Approved", reason_for_decline: "" } : { status: "Declined", reason_for_decline: `${payload.reason}` }
         const isRecallStatUpdated = await api.patch(`/leave_recalls/${payload.id}`, dataToUpdate);
         const isLeaveDataUpdated = await api.patch(`/leavesApplications/${payload.id}`, { end_date: payload.end_date, resumption_date: payload.resumption_date, duration: payload.duration });
+        const isRecallRespUpdated = await api.patch(`/leave_recalls/${payload.id}`, { recall_decision: "responded" });
         return {
             recallStatus: isRecallStatUpdated.data,
-            leaveDataUpdation: isLeaveDataUpdated.data
+            leaveDataUpdation: isLeaveDataUpdated.data,
+            recallRespUpdation: isRecallRespUpdated.data
         }
     } catch (error) {
         return rejectWithValue(error.response?.data || 'Something went wrong');
     }
 })
+
+export const fetchAllLeaveRecalls = createAsyncThunk('fetchAllLeaveRecalls', async (_, { rejectWithValue }) => {
+    try {
+        const recallsResp = await api.get('/leave_recalls');
+        return recallsResp.data;
+    } catch (error) {
+        return rejectWithValue(error.response?.data || 'Something went wrong');
+    }
+});
+
 
 export const leaveApplication = createSlice({
 
@@ -90,7 +102,9 @@ export const leaveApplication = createSlice({
         totalLeaveApplications: [],
         totalLeaveAppError: {},
         recalledLeaveToRespond: {},
-        recalledLeaveToRespondError: {}
+        recalledLeaveToRespondError: {},
+        allLeaveRecalls: [],
+        allLeaveRecallsError: null
     },
 
     reducers: {
@@ -120,6 +134,16 @@ export const leaveApplication = createSlice({
             .addCase(filterRecallLeave.rejected, (state, action) => {
                 return { ...state, recalledLeaveToRespond: null, recalledLeaveToRespondError: action.payload }
             })
+            //fetching all leave recalls
+            .addCase(fetchAllLeaveRecalls.fulfilled, (state, action) => {
+                state.allLeaveRecalls = action.payload;
+                state.allLeaveRecallsError = null;
+            })
+            .addCase(fetchAllLeaveRecalls.rejected, (state, action) => {
+                state.allLeaveRecalls = [];
+                state.allLeaveRecallsError = action.payload;
+            })
+
     }
 })
 

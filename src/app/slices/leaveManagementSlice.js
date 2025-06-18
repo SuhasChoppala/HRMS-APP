@@ -35,7 +35,7 @@ export const leaveRecallofEmp = createAsyncThunk('leaveRecallofEmp', async (payl
         const recallData = {
             id: `${recallId}`,
             employee_name: `${payload.leaveToRecall.name}`,
-            employee_id: `${payload.leaveToRecall.id}`,
+            employee_id: `${payload.leaveToRecall.employee_id}`,
             leave_id: `${payload.leaveToRecall.id}`,
             resumption_date: `${payload.dataTopass.resumption_date}`,
             new_resumption_date: `${payload.dataTopass.new_resumption_date}`,
@@ -43,17 +43,22 @@ export const leaveRecallofEmp = createAsyncThunk('leaveRecallofEmp', async (payl
             reason_for_recall: `${payload.dataTopass.reason_for_recall}`,
             releif_officer: `${payload.dataTopass.relief_officer_name}`,
             status: "created",
-            reason_for_decline: ""
+            reason_for_decline: "",
+            recall_decision: "pending"
         };
 
         const recalledLeave = await api.post('/leave_recalls', recallData);
+
         const updateLeaveAppStatus = await api.patch(`/leavesApplications/${payload.leaveToRecall.id}`, { status: "Recalled" });
+
         const recallMessage = {
             id: `${state.leaveManagement.allMessagesInDB.length + 1}`,
-            employee_id: `${payload.leaveToRecall.id}`,
-            message: `Relief Officer ${payload.dataTopass.relief_officer_name} has recalled your leave and your new resumption date is ${payload.dataTopass.new_resumption_date}. Please check the Leave Dashboard.`,
-        }
+            employee_id: `${payload.leaveToRecall.employee_id}`,
+            message: `Relief Officer ${payload.dataTopass.relief_officer_name} has recalled your leave and your new resumption date is ${payload.dataTopass.new_resumption_date}. Please check the Leave Dashboard.`
+        };
+
         const sendNotification = await api.post('/messages', recallMessage);
+
         return {
             recall: recalledLeave.data,
             updatedStatus: updateLeaveAppStatus.data,
